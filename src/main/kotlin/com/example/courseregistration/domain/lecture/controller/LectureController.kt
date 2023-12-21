@@ -1,8 +1,10 @@
 package com.example.courseregistration.domain.lecture.controller
 
+import com.example.courseregistration.domain.course.service.CourseService
 import com.example.courseregistration.domain.lecture.dto.AddLectureRequest
 import com.example.courseregistration.domain.lecture.dto.LectureResponse
 import com.example.courseregistration.domain.lecture.dto.UpdateLectureRequest
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,42 +17,59 @@ import org.springframework.web.bind.annotation.RestController
 
 @RequestMapping("/courses/{courseId}/lectures")
 @RestController
-class LectureController {
+class LectureController(
+    private val courseService:CourseService
+) {
     @GetMapping()
-    fun getLectureList(
-        @PathVariable courseId:String
-    ):ResponseEntity<List<LectureResponse>> {
+    fun getLectureList(@PathVariable courseId:Long):ResponseEntity<List<LectureResponse>> {
         TODO()
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(courseService.getLectureList(courseId))
     }
     @GetMapping("/{lectureId}")
     fun getLecture(
-        @PathVariable courseId:String,
+        @PathVariable courseId:Long,
         @PathVariable lectureId: Long
     ):ResponseEntity<LectureResponse>{
         TODO()
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(courseService.getLecture(courseId, lectureId))
     }
     @PostMapping()
     fun addLecture(
-        @PathVariable courseId:String,
+        @PathVariable courseId:Long,
         @RequestBody addLectureRequest: AddLectureRequest
     ):ResponseEntity<LectureResponse>{
         TODO()
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(courseService.addLecture(courseId, addLectureRequest))
     }
     @PutMapping("/{lectureId}")
     fun updateLecture(
-        @PathVariable courseId:String,
+        @PathVariable courseId:Long,
         @RequestBody updateLectureRequest: UpdateLectureRequest,
         @PathVariable lectureId:Long
     ):ResponseEntity<LectureResponse>{
         TODO()
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(courseService.updateLecture(courseId,lectureId, updateLectureRequest, ))
+
     }
     @DeleteMapping("/{lectureId}")
     fun removeLecture(
-        @PathVariable courseId:String,
+        @PathVariable courseId:Long,
         @PathVariable lectureId:Long
         // Unit = Void 비슷한 뜻
     ):ResponseEntity<Unit>{
         TODO()
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(courseService.deleteCourse(courseId))
+
     }
 
 

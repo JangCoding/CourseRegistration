@@ -6,7 +6,7 @@ import com.example.courseregistration.domain.courseapplication.dto.UpdateApplica
 import org.springframework.stereotype.Service
 
 @Service
-class CourseApplicationImpl():CourseApplicationService {
+class x__CourseApplicationImpl():x__CourseApplicationService {
     override fun getAllApplicationList(courseId: Long): List<CourseApplicationResponse> {
         TODO("Not yet implemented")
     }

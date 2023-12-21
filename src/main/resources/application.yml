@@ -1,0 +1,12 @@
+##.properties
+#spring.datasource.url = jdbc:postgresql://db.gejqpspppereuemgbisl.supabase.co:5432/postgres
+#spring.datasource.uername = postgres
+#spring.datasource.password=8X3IX7r4MElSyNG5
+
+#yml ??? ??. ???? ??
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://db.gejqpspppereuemgbisl.supabase.co:5432/postgres
+#    username : postgre
+#    password : 8X3IX7r4MElSyNG5
+

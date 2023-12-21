@@ -14,8 +14,16 @@ class GlobalExceptionHandler {    // 전역적으로 예외 처리.
     fun handleModelNotFoundException(e:ModelNotFoundException) : ResponseEntity<ErrorResponse> {
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
-            .body(ErrorResponse(message = e.message, errorCode = "Wow")) // 예외 메세지 그대로 전달
+            .body(ErrorResponse(message = e.message)) // 예외 메세지 그대로 전달
     }
     // 다른 예외가 발생할 때 마다 아래 추가
-
+                     // 기본 에러 메세지 중 1
+    @ExceptionHandler(IllegalStateException::class)
+    fun handleIllegalStateException(
+        e:IllegalStateException
+    ):ResponseEntity<ErrorResponse> {
+        return ResponseEntity
+            .status(HttpStatus.CONFLICT)
+            .body(ErrorResponse(e.message))
+    }
 }

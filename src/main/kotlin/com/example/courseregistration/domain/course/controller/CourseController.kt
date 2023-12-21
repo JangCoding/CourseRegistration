@@ -4,9 +4,11 @@ import com.example.courseregistration.domain.course.dto.CourseResponse
 import com.example.courseregistration.domain.course.dto.CreateCourseRequest
 import com.example.courseregistration.domain.course.dto.UpdateCourseRequest
 import com.example.courseregistration.domain.course.service.CourseService
+import com.example.courseregistration.domain.exception.ModelNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -60,4 +62,12 @@ class CourseController (
         courseService.deleteCourse(courseId)
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
     }
+    // Global Exception Handler 로 이동
+//    // 해당 클래스에서 예외가 발생하면 핸들링 할 것이다
+//    @ExceptionHandler(ModelNotFoundException::class)
+//    // e :  예외 코드를 인자로, 반환은 Unit. 없음.
+//    fun handleModelNotFoundException(e:ModelNotFoundException) : ResponseEntity<Unit>{
+//        return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+//    }
+
 }

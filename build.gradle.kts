@@ -30,6 +30,10 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	// springdoc 설치
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+	// 트랜잭션이 담긴 패키지 jpa 추가
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	// 레포지토리 사용하기 위해 h2 db 추가
+	implementation("com.h2database:h2")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation(kotlin("script-runtime"))

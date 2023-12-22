@@ -1,9 +1,7 @@
-package com.example.courseregistration.domain.lecture.Model
+package com.example.courseregistration.domain.lecture.model
 
-import com.example.courseregistration.domain.course.Model.Course
 import com.example.courseregistration.domain.course.model.Course
 import jakarta.persistence.*
-import org.hibernate.annotations.Fetch
 
 @Entity
 @Table(name = "lecture")

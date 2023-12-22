@@ -1,4 +1,4 @@
-package com.example.courseregistration.domain.courseapplication.Model
+package com.example.courseregistration.domain.courseapplication.model
 
 enum class CourseApplicationStatus {
     PENDING,

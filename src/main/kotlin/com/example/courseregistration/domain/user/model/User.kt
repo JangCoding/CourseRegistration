@@ -1,6 +1,6 @@
-package com.example.courseregistration.domain.user.Model
+package com.example.courseregistration.domain.user.model
 
-import com.example.courseregistration.domain.courseapplication.Model.CourseApplication
+import com.example.courseregistration.domain.courseapplication.model.CourseApplication
 import jakarta.persistence.*
 
 @Entity

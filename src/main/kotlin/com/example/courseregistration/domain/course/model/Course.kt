@@ -1,7 +1,6 @@
 package com.example.courseregistration.domain.course.model
 
-import com.example.courseregistration.domain.course.Model.CourseStatus
-import com.example.courseregistration.domain.lecture.Model.Lecture
+import com.example.courseregistration.domain.lecture.model.Lecture
 import jakarta.persistence.*
 
 
@@ -33,8 +32,7 @@ class Course (
 ){
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id : Long? = null
-
+    var id:Long?=null
 }
 
 

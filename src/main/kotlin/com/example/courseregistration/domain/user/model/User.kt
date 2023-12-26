@@ -1,6 +1,7 @@
 package com.example.courseregistration.domain.user.model
 
 import com.example.courseregistration.domain.courseapplication.model.CourseApplication
+import com.example.courseregistration.domain.user.dto.UserResponse
 import jakarta.persistence.*
 
 @Entity
@@ -21,10 +22,17 @@ class User(
 
         @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
         var courseApplications:MutableList<CourseApplication> = mutableListOf()
-
-        ){
+    ){
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id:Long? = null
 }
 
+fun User.toResponse(): UserResponse {
+    return UserResponse(
+        id = id!!,
+        nickname = profile.nickname,
+        email = email,
+        role = role.name
+    )
+}

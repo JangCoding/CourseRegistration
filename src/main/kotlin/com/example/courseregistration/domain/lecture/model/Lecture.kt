@@ -1,6 +1,7 @@
 package com.example.courseregistration.domain.lecture.model
 
 import com.example.courseregistration.domain.course.model.Course
+import com.example.courseregistration.domain.lecture.dto.LectureResponse
 import jakarta.persistence.*
 
 @Entity
@@ -20,4 +21,11 @@ class Lecture(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id:Long? = null
+}
+fun Lecture.toResponse(): LectureResponse {
+    return LectureResponse(
+        id = id!!,
+        title = title,
+        videoUrl = videoUrl,
+    )
 }

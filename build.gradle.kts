@@ -57,6 +57,9 @@ dependencies {
 
 	// 어플리케이션이 실행될 때만 DB 드라이버를 설치하겠다.
 	runtimeOnly("org.postgresql:postgresql")
+
+	// aop 패키지 설정
+	implementation("org.springframework.boot:spring-boot-starter-aop")
 }
 
 tasks.withType<KotlinCompile> {

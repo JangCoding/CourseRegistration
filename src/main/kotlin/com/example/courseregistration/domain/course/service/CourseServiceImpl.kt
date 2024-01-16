@@ -22,7 +22,7 @@ import com.example.courseregistration.domain.lecture.model.Lecture
 import com.example.courseregistration.domain.lecture.model.toResponse
 import com.example.courseregistration.domain.lecture.repository.LectureRepository
 import com.example.courseregistration.domain.user.repository.UserRepository
-import com.example.courseregistration.domain.user.model.User
+import com.example.courseregistration.infra.aop.MyStopWatch
 import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -45,6 +45,7 @@ class CourseServiceImpl(
         return courseRepository.findAll().map { it.toResponse() }
     }
 
+    @MyStopWatch // aop 에서 @annotation 으로 설정한 클래스
     override fun getCourseById(courseId: Long): CourseResponse {
         // TODO : DB 에서 ID 기반으로 Course 가져와서 CourseResponse 로 변환 후 반환
         // TODO : 만약 courseId에 해당하는 Course가 없다면 throw ModelNotFoundException 공통으로 사용할 수 있는 네이밍

@@ -100,44 +100,66 @@ class CourseServiceImpl(
             videoUrl = request.videoUrl,
             course = course
         )
-
-        // Course에 Lecture 추가
-        course.addLecture(lecture)
-        // Lecture에 영속성 전파
-        courseRepository.save(course)
-        return lecture.toResponse()
+//
+//        // Course에 Lecture 추가
+//        course.addLecture(lecture)
+//        // Lecture에 영속성 전파
+//        courseRepository.save(course)
+//        return lecture.toResponse()
+        return lectureRepository.save(lecture).toResponse() // Course 를 통한 영속성 전파가 아닌, lectureRepository 이용 저장
     }
 
+//    override fun getLecture(courseId: Long): LectureResponse {
+//        // TODO: 만약 courseId, lectureId에 해당하는 Lecture가 없다면 throw ModelNotFoundException
+//        // TODO: DB에서 courseId, lectureId에 해당하는 Lecture를 가져와서 LectureResponse로 변환 후 반환
+//
+//        //val course = courseRepository.findByIdOrNull(courseId) ?: throw ModelNotFoundException("Course", courseId)
+//        //course.lecture.find{ it.id == lectureId } // course 내부의 모든 lecture 를 가져와야 하기 때문에 비효율적.
+//
+//        // lectureId 까지 매개변수로 입력받아 한번에 원하는 lecture를 찾기
+////        val lecture = lectureRepository.findByCourseIdAndId(courseId, lectureId)
+////            ?: throw ModelNotFoundException("Lecture", lectureId)
+////        val lecture = lectureRepository.findByIdOrNull(lectureId)
+////            ?: throw ModelNotFoundException("Lecture", lectureId)
+////
+////
+////        return lecture.toResponse()
+//
+////        return lectureRepository.findAllByCourseId(courseId).map { it.toResponse() }
+//
+//    }
     override fun getLecture(courseId: Long, lectureId: Long): LectureResponse {
-        // TODO: 만약 courseId, lectureId에 해당하는 Lecture가 없다면 throw ModelNotFoundException
-        // TODO: DB에서 courseId, lectureId에 해당하는 Lecture를 가져와서 LectureResponse로 변환 후 반환
-
-        //val course = courseRepository.findByIdOrNull(courseId) ?: throw ModelNotFoundException("Course", courseId)
-        //course.lecture.find{ it.id == lectureId } // course 내부의 모든 lecture 를 가져와야 하기 때문에 비효율적.
-
-        // lectureId 까지 매개변수로 입력받아 한번에 원하는 lecture를 찾기
-        val lecture = lectureRepository.findByCourseIdAndId(courseId, lectureId)
+        val lecture = lectureRepository.findByIdOrNull(lectureId)
             ?: throw ModelNotFoundException("Lecture", lectureId)
 
         return lecture.toResponse()
-
     }
 
     override fun getLectureList(courseId: Long): List<LectureResponse> {
         // TODO: 만약 courseId에 해당하는 Course가 없다면 throw ModelNotFoundException
         // TODO: DB에서 courseId에 해당하는 Course목록을 가져오고, 하위 lecture들을 가져온 다음, LectureResopnse로 변환해서 반환
-        val course = courseRepository.findByIdOrNull(courseId) ?: throw ModelNotFoundException("Course", courseId)
-        return course.lectures.map{it.toResponse()}
+//        val course = courseRepository.findByIdOrNull(courseId) ?: throw ModelNotFoundException("Course", courseId)
+//        return course.lectures.map{it.toResponse()}
+
+        //course 통한 lecture 접근 대신 courseId로 lecture 목록을 가져오는 인터페이스 작성 필요
+        return lectureRepository.findAllByCourseId(courseId).map { it.toResponse() }
+
     }
 
     @Transactional
-    override fun updateLecture(courseId: Long, lectureId: Long, request: UpdateLectureRequest): LectureResponse {
+    override fun updateLecture(
+        courseId: Long,
+        lectureId: Long,
+        request: UpdateLectureRequest
+    ): LectureResponse {
         // TODO: 만약 courseId, lectureId에 해당하는 Lecture가 없다면 throw ModelNotFoundException
         /* TODO: DB에서 courseId, lectureId에 해당하는 Lecture를 가져와서
             request로 업데이트 후 DB에 저장, 결과를을 LectureResponse로 변환 후 반환 */
 
-        val lecture = lectureRepository.findByCourseIdAndId(courseId, lectureId)
-            ?: throw ModelNotFoundException("Course", courseId)
+//        val lecture = lectureRepository.findByCourseIdAndId(courseId, lectureId)
+//            ?: throw ModelNotFoundException("Course", courseId)
+        val lecture = lectureRepository.findByIdOrNull(lectureId)
+            ?: throw ModelNotFoundException("Lecture", lectureId)
 
         lecture.title = request.title
         lecture.videoUrl = request.videoURL
@@ -152,15 +174,16 @@ class CourseServiceImpl(
         // TODO: 만약 courseId에 해당하는 Course가 없다면 throw ModelNotFoundException
         // TODO: DB에서 courseId, lectureId에 해당하는 Lecture를 가져오고, 삭제
         val course = courseRepository.findByIdOrNull(courseId) ?: throw ModelNotFoundException("Course", courseId)
-        val lecture = lectureRepository.findByCourseIdAndId(courseId, lectureId)
+        val lecture = lectureRepository.findByIdOrNull(lectureId)
             ?: throw ModelNotFoundException("Course", courseId)
 
-        // lecture 의 생성과 삭제를 course가 관리하도록
-        course.removeLecture(lecture)
-
-        //lectureRepository.delete(lecture) // 로 해도 가능
-
-        courseRepository.save(course)
+//        // lecture 의 생성과 삭제를 course가 관리하도록
+//        course.removeLecture(lecture)
+//
+//        //lectureRepository.delete(lecture) // 로 해도 가능
+//
+//        courseRepository.save(course)
+        lectureRepository.delete(lecture)
     }
 
     @Transactional
@@ -218,7 +241,7 @@ class CourseServiceImpl(
         applicationId: Long,
         request: UpdateApplicationStatusRequest
     ): CourseApplicationResponse {
-        TODO("Not yet implemented")// TODO: 만약 courseId, applicationId에 해당하는 CourseApplication이 없다면 throw ModelNotFoundException
+        // TODO: 만약 courseId, applicationId에 해당하는 CourseApplication이 없다면 throw ModelNotFoundException
         // TODO: 만약 status가 이미 변경된 상태면 throw IllegalStateException
         // TODO: Course의 status가 CLOSED상태 일시 throw IllegalStateException
         // TODO: 승인을 하는 케이스일 경우, course의 numApplicants와 maxApplicants가 동일하면, course의 상태를 CLOSED로 변경
@@ -263,5 +286,6 @@ class CourseServiceImpl(
                 throw IllegalStateException("Invalid status : ${request.status}")
             }
         }
+        return courseApplicationRepository.save(application).toResponse()
     }
 }

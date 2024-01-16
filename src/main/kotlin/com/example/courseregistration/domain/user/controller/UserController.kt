@@ -22,7 +22,7 @@ class UserController(
 ) {
     @PostMapping("/signup")
     fun signUp(@RequestBody signUpRequest: SignUpRequest):ResponseEntity<UserResponse>{
-        TODO()
+
         return ResponseEntity.status(HttpStatus.OK)
             .body(userService.signUp(signUpRequest))
     }
@@ -32,7 +32,7 @@ class UserController(
         @RequestBody updateUserProfileRequest: UpdateUserProfileRequest,
         @PathVariable userId:Long
     ):ResponseEntity<UserResponse>{
-        TODO()
+
         return ResponseEntity.status(HttpStatus.OK)
             .body(userService.updateUserProfile(userId, updateUserProfileRequest))
     }
@@ -41,10 +41,10 @@ class UserController(
 
 //    @PostMapping("/login")
 //    fun loginUser(@RequestBody loginUserRequest: LoginUserRequest):ResponseEntity<UserResponse>{
-//        TODO()
+
 //    }
 //    @PostMapping("/logout")
 //    fun logoutUser(){
-//        TODO()
+
 //    }
 }

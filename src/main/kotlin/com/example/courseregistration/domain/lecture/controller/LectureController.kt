@@ -22,7 +22,7 @@ class LectureController(
 ) {
     @GetMapping()
     fun getLectureList(@PathVariable courseId:Long):ResponseEntity<List<LectureResponse>> {
-        TODO()
+
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(courseService.getLectureList(courseId))
@@ -32,7 +32,7 @@ class LectureController(
         @PathVariable courseId:Long,
         @PathVariable lectureId: Long
     ):ResponseEntity<LectureResponse>{
-        TODO()
+
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(courseService.getLecture(courseId, lectureId))
@@ -42,7 +42,7 @@ class LectureController(
         @PathVariable courseId:Long,
         @RequestBody addLectureRequest: AddLectureRequest
     ):ResponseEntity<LectureResponse>{
-        TODO()
+
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(courseService.addLecture(courseId, addLectureRequest))
@@ -53,7 +53,7 @@ class LectureController(
         @RequestBody updateLectureRequest: UpdateLectureRequest,
         @PathVariable lectureId:Long
     ):ResponseEntity<LectureResponse>{
-        TODO()
+
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(courseService.updateLecture(courseId,lectureId, updateLectureRequest, ))
@@ -65,7 +65,7 @@ class LectureController(
         @PathVariable lectureId:Long
         // Unit = Void 비슷한 뜻
     ):ResponseEntity<Unit>{
-        TODO()
+
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(courseService.deleteCourse(courseId))

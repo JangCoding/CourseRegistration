@@ -1,12 +1,20 @@
 ##.properties
 #spring.datasource.url = jdbc:postgresql://db.gejqpspppereuemgbisl.supabase.co:5432/postgres
 #spring.datasource.uername = postgres
-#spring.datasource.password=8X3IX7r4MElSyNG5
+#spring.datasource.password=
 
 #yml ??? ??. ???? ??
 spring:
-  datasource:
-    url: jdbc:postgresql://db.gejqpspppereuemgbisl.supabase.co:5432/
-    username : postgres
-    password : 8X3IX7r4MElSyNG5
-
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        orm:
+          jdbc:
+            bind: trace

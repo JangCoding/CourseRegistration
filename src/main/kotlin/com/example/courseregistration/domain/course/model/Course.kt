@@ -29,8 +29,10 @@ class Course(
     // 양방향 관계일 때 연관관계 주입. 주인이 아닌 쪽에? FK 없는 쪽 , 지연 로딩 설정. 성능향상.
     // casecade : 영속성 전파
     // orphanRemoval : 연결이 끊어져서 고아가 되는 Entity도 삭제해버리기
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-    var lectures: MutableList<Lecture> = mutableListOf(),
+    //mappedBy = "course", // 양방향 관계에서 누가 주인인지 확인하기 위해 작성
+//    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+//    @JoinColumn(name = "course_id") // 외래키가 어떤 Column 인지? 누구랑 Join 해야 하는지?
+//    var lectures: MutableList<Lecture> = mutableListOf(),
 
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     var courseApplications: MutableList<CourseApplication> = mutableListOf()
@@ -57,13 +59,13 @@ class Course(
         numApplicants += 1
     }
 
-    fun addLecture(lecture: Lecture) {
-        lectures.add(lecture)
-    }
-
-    fun removeLecture(lecture: Lecture) {
-        lectures.remove(lecture)
-    }
+//    fun addLecture(lecture: Lecture) {
+//        lectures.add(lecture)
+//    }
+//
+//    fun removeLecture(lecture: Lecture) {
+//        lectures.remove(lecture)
+//    }
 
     fun addCourseApplication(courseApplication: CourseApplication) {
         courseApplications.add(courseApplication)

@@ -29,14 +29,14 @@ class CourseController (
     //내부의 각각의 함수가 API 요청 (GET, PUT, ... 등) 과 맵핑이 됨
     @GetMapping()
     fun getCourseList(): ResponseEntity<List<CourseResponse>> {
-        TODO()
+
         // 응답 객체를 보내는데 상태는 OK. 내용은 courseService(인터페이스)의 getAllCourseList() 메서드의 반환값
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getAllCourseList())
     }
     @GetMapping("/{courseId}")
     //            {변수} 어노테이션 인자와 네이밍 일치
     fun getCourse(@PathVariable courseId:Long): ResponseEntity<CourseResponse> {
-        TODO()
+
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getCourseById(courseId))
     }
 
@@ -45,20 +45,20 @@ class CourseController (
     // ResponseEntity<DTO> 컨트롤러에서 클라이언트로 HTTP 응답을 나타내는 클래스.
     // 응답 데이터(DTO)와 함께 HTTP 상태 코드, 헤더 등을 포함. 더 많은 정보를 제공하거나 특정 상태에 대한 응답을 정의.
     fun createCourse(@RequestBody createCourseRequest:CreateCourseRequest): ResponseEntity<CourseResponse> {
-        TODO()
+
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.createCourse(createCourseRequest))
     }
 
     @PutMapping("/{courseId}")
     // PathVariable : URI 에서 경로변수 {} 추출하여 파라미터로 전달받기 위해
     fun updateCourse(@PathVariable courseId:Long, @RequestBody updateCourseRequest: UpdateCourseRequest): ResponseEntity<CourseResponse> {
-        TODO()
+
         return ResponseEntity.status(HttpStatus.OK).body(courseService.updateCourse(courseId, updateCourseRequest))
     }
 
     @DeleteMapping("/{courseId}")
     fun deleteCourse(@PathVariable courseId:Long) : ResponseEntity<Unit> {
-        TODO()
+
         courseService.deleteCourse(courseId)
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
     }

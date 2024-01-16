@@ -2,7 +2,6 @@
 #spring.datasource.url = jdbc:postgresql://db.gejqpspppereuemgbisl.supabase.co:5432/postgres
 #spring.datasource.uername = postgres
 #spring.datasource.password=
-
 #yml ??? ??. ???? ??
 spring:
   jpa:
@@ -18,3 +17,4 @@ logging:
         orm:
           jdbc:
             bind: trace
+            #Test

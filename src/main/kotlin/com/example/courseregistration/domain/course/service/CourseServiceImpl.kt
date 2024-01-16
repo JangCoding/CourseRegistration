@@ -51,7 +51,7 @@ class CourseServiceImpl(
         // TODO : 만약 courseId에 해당하는 Course가 없다면 throw ModelNotFoundException 공통으로 사용할 수 있는 네이밍
         //throw ModelNotFoundException(modelName = "Course", id=1L)
 
-        var course = courseRepository.findByIdOrNull(courseId) ?: throw ModelNotFoundException("Course", courseId)
+        val course = courseRepository.findByIdOrNull(courseId) ?: throw ModelNotFoundException("Course", courseId)
         return course.toResponse()
 
     }

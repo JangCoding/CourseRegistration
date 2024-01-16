@@ -18,3 +18,5 @@ logging:
           jdbc:
             bind: trace
             #Test
+      springframework :
+        security : debug

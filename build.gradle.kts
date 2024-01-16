@@ -60,6 +60,12 @@ dependencies {
 
 	// aop 패키지 설정
 	implementation("org.springframework.boot:spring-boot-starter-aop")
+	// Spring Security 추가
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	// jwt 관련 라이브러리 중 jjwt 추가
+	implementation("io.jsonwebtoken:jjwt-api:0.12.3")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3")
 }
 
 tasks.withType<KotlinCompile> {

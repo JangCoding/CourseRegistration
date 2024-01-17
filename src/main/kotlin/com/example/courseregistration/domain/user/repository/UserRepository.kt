@@ -10,7 +10,7 @@ interface UserRepository : JpaRepository<User, Long> {
     fun existsByEmail(email: String): Boolean
 
     // Query문을 메서드와 연결하기
-    @Query("select u from User u where u.email =:email")
-    fun findByEmail(email:String):User?
+    //@Query("select u from User u where u.email =:email")
+    fun findByEmail(email:String):User? // 위와 동일
 
 }

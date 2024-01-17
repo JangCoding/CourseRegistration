@@ -1,23 +1,48 @@
 package com.example.courseregistration.domain.user.service
 
 import com.example.courseregistration.domain.exception.ModelNotFoundException
-import com.example.courseregistration.domain.user.dto.SignUpRequest
-import com.example.courseregistration.domain.user.dto.UpdateUserProfileRequest
-import com.example.courseregistration.domain.user.dto.UserResponse
+import com.example.courseregistration.domain.user.dto.*
+import com.example.courseregistration.domain.user.exception.InvalidCredentialException
 import com.example.courseregistration.domain.user.model.Profile
 import com.example.courseregistration.domain.user.model.User
 import com.example.courseregistration.domain.user.model.UserRole
 import com.example.courseregistration.domain.user.model.toResponse
 import com.example.courseregistration.domain.user.repository.UserRepository
+import com.example.courseregistration.infra.security.jwt.JwtPlugin
 import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class UserServiceImpl(
     // Repository 주입을 받아서 처리
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val passwordEncoder: PasswordEncoder,
+    private val jwtPlugin : JwtPlugin
 ) : UserService {
+    override fun login(request: LoginRequest): LoginResponse {
+        // email, role, password 체크
+        val user = userRepository.findByEmail(request.email)
+            ?:throw ModelNotFoundException("User", null)
+
+        if (user.role.name != request.role
+            || !passwordEncoder.matches(request.password, user.password ) )
+                // request 는 encode 하기전. raw 이고, user 는 암호화 되어있는 상태
+        {
+            throw InvalidCredentialException()
+        }
+
+        //확인 다 되면 엑세스토큰 생성해서 반환하기
+        return LoginResponse(
+            accessToken = jwtPlugin.generateAccessToken(
+                subject = user.id.toString(),
+                email = user.email,
+                role = user.role.name
+            )
+        )
+    }
+
     @Transactional
     override fun signUp(request: SignUpRequest): UserResponse {
         // TODO : 이메일 중복 확인. 중복된다면 예외처리. throw IllegalStateException
@@ -30,7 +55,8 @@ class UserServiceImpl(
         return userRepository.save(
             User(
                 email = request.email,
-                password = request.password,
+                // password 암호화 필요
+                password = passwordEncoder.encode( request.password) , // BCryptPasswordEncoder().encode()
                 profile = Profile(nickname = request.nickname),
                 role = when(request.role){
                     UserRole.STUDENT.name -> UserRole.STUDENT

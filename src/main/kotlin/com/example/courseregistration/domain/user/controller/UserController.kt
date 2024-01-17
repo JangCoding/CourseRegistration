@@ -1,13 +1,9 @@
 package com.example.courseregistration.domain.user.controller
 
-import com.example.courseregistration.domain.user.dto.LoginUserRequest
-import com.example.courseregistration.domain.user.dto.SignUpRequest
-import com.example.courseregistration.domain.user.dto.UpdateUserProfileRequest
-import com.example.courseregistration.domain.user.dto.UserResponse
+import com.example.courseregistration.domain.user.dto.*
 import com.example.courseregistration.domain.user.service.UserService
 import org.apache.coyote.Response
 import org.springframework.http.HttpStatus
-import org.springframework.http.RequestEntity
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,6 +16,13 @@ import org.springframework.web.bind.annotation.RestController
 class UserController(
     private val userService: UserService
 ) {
+    @PostMapping("/login")
+    fun login(@RequestBody loginRequest : LoginRequest) : ResponseEntity<LoginResponse> {
+        // email - password - role 일치 확인. 성공하면 jwt 발급
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(userService.login(loginRequest))
+    }
+
     @PostMapping("/signup")
     fun signUp(@RequestBody signUpRequest: SignUpRequest):ResponseEntity<UserResponse>{
 

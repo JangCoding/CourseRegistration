@@ -45,21 +45,21 @@ class UserServiceImpl(
 
     @Transactional
     override fun signUp(request: SignUpRequest): UserResponse {
-        // TODO : 이메일 중복 확인. 중복된다면 예외처리. throw IllegalStateException
-        // request를 User로 변환 후 DB로 저장, 비밀번호는 저장시 암호화
 
+        // 이메일 중복 확인. 중복된다면 예외처리. throw IllegalStateException
         if(userRepository.existsByEmail(request.email)){
             throw IllegalStateException("Email is already in use")
         }
 
+        // request를 User로 변환 후 DB로 저장, 비밀번호는 저장시 암호화
         return userRepository.save(
             User(
                 email = request.email,
-                // password 암호화 필요
+                // password 암호화
                 password = passwordEncoder.encode( request.password) , // BCryptPasswordEncoder().encode()
                 profile = Profile(nickname = request.nickname),
-                role = when(request.role){
-                    UserRole.STUDENT.name -> UserRole.STUDENT
+                role = when(request.role.uppercase()){
+                    UserRole.STUDENT.name -> UserRole.STUDENT // 두가지 방법
                     "TUTOR" -> UserRole.TUTOR
                     else -> throw IllegalStateException("Invalid role")
                 }

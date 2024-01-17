@@ -1,15 +1,14 @@
 package com.example.courseregistration.infra.security.jwt
 
+import com.example.courseregistration.infra.security.UserPrincipal
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpHeaders
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.web.authentication.WebAuthenticationDetails
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Private
 
 @Component // 클래스를 빈으로 등록
 class JwtAuthenticationFilter(

@@ -1,4 +1,4 @@
-package com.example.courseregistration.infra.security.jwt
+package com.example.courseregistration.infra.security
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority

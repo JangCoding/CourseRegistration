@@ -13,7 +13,7 @@ import java.util.Date
 
 
 @Component
-class JwtPlugin(
+class JwtPlugin( // 토큰 검증과 생성 역할
     @Value("\${auth.jwt.issuer}") private val issuer : String,
     @Value("\${auth.jwt.secret}") private val secret : String,
     @Value("\${auth.jwt.accessTokenExpirationHour}") private val accessTokenExpirationHour : Long,
@@ -32,6 +32,7 @@ class JwtPlugin(
         return kotlin.runCatching { //try{}catch{} 대신 사용. isFailure, onSuccess 등 사용 가능
             val key = Keys.hmacShaKeyFor( secret.toByteArray(StandardCharsets.UTF_8) )
 
+            // key로 서명 검증, 만료시간 체크.
             // return 따로 명시 없어도 마지막 줄이 runCatching 에 의해 전달됨
             Jwts.parser().verifyWith(key).build().parseSignedClaims(jwt) // 검증해주기.
 
@@ -40,25 +41,27 @@ class JwtPlugin(
 
     // 액세스 토큰 생성
     fun generateAccessToken(subject:String, email : String, role : String) : String{ // 토큰은 단순 String
+        // subject, 만료기간과 role을 설정.
         return generateToken(subject, email, role, Duration.ofHours(accessTokenExpirationHour))
     }
 
-    // fun refreshAccessToken() ~~
-
-                                   //expirationPeriod 만 추가로 입력받도록 해서 refresh 시에도 사용할 수 있도록
-        private fun generateToken(subject:String, email : String, role : String, expirationPeriod: Duration) : String{
-        val claims : Claims = Jwts.claims() // 커스텀 클레임 생성
-            .add(mapOf("role" to role, "email" to email))
+    // fun refreshAccessToken() 도 만들어줘야함
+                                                                            //expirationPeriod 만 추가로 입력받도록 해서 refresh 시에도 사용할 수 있도록
+    private fun generateToken(subject:String, email : String, role : String, expirationPeriod: Duration) : String{
+        val claims : Claims = Jwts.claims() // 커스텀 클레임 설정
+            .add(mapOf("role" to role, "email" to email)) // role 과 email 항목 추가
             .build()
 
         //val expirationPeriod = Duration.ofHours(168)
         val now = Instant.now()
+            // jwt.secret 문자열을 UTF-8 바이트 배열로 변환 후 HMAC SHA 키 생성
         val key = Keys.hmacShaKeyFor( secret.toByteArray(StandardCharsets.UTF_8) )
 
 
+        // JWT 토큰 생성
         return Jwts.builder()
             .subject(subject)
-            .issuer(issuer)
+            .issuer(issuer) // @Value 로 등록한 값.
             .issuedAt(Date.from(now))
             .expiration(Date.from(now.plus(expirationPeriod))) // 만료기간
             .claims(claims)

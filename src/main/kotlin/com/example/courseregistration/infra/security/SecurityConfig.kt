@@ -8,7 +8,7 @@ import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
 @EnableWebSecurity // http 기반 통신시 관련 보안 기능 켜기위해 설정
-class SecurityConfig{
+class SecurityConfig{ // 필요 없는 필터 끄기 위해 작성.
     @Bean
     fun filterChain(http: HttpSecurity):SecurityFilterChain{
         return http

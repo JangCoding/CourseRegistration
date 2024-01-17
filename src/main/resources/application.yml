@@ -20,3 +20,9 @@ logging:
             #Test
       springframework :
         security : debug
+
+auth:
+  jwt:
+    issuer : team.sparta.com
+    secret : gH7kRw9FpD3yN2mQxL5aJcUvZ1oP4bS6
+    accessTokenExpirationHour : 168

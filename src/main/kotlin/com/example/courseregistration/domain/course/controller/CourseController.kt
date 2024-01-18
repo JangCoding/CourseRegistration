@@ -4,11 +4,10 @@ import com.example.courseregistration.domain.course.dto.CourseResponse
 import com.example.courseregistration.domain.course.dto.CreateCourseRequest
 import com.example.courseregistration.domain.course.dto.UpdateCourseRequest
 import com.example.courseregistration.domain.course.service.CourseService
-import com.example.courseregistration.domain.exception.ModelNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -28,12 +27,14 @@ class CourseController (
 ){
     //내부의 각각의 함수가 API 요청 (GET, PUT, ... 등) 과 맵핑이 됨
     @GetMapping()
+    @PreAuthorize("hasRole('TUTOR') or hasRole('STUDENT')")
     fun getCourseList(): ResponseEntity<List<CourseResponse>> {
 
         // 응답 객체를 보내는데 상태는 OK. 내용은 courseService(인터페이스)의 getAllCourseList() 메서드의 반환값
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getAllCourseList())
     }
     @GetMapping("/{courseId}")
+    @PreAuthorize("hasRole('TUTOR') or hasRole('STUDENT')")
     //            {변수} 어노테이션 인자와 네이밍 일치
     fun getCourse(@PathVariable courseId:Long): ResponseEntity<CourseResponse> {
 
@@ -41,6 +42,7 @@ class CourseController (
     }
 
     @PostMapping()
+    @PreAuthorize("hasRole('TUTOR')")
     // @RequestBody : createCourseRequest 클라이언트로 요청받은 Json을 객체로 맵핑
     // ResponseEntity<DTO> 컨트롤러에서 클라이언트로 HTTP 응답을 나타내는 클래스.
     // 응답 데이터(DTO)와 함께 HTTP 상태 코드, 헤더 등을 포함. 더 많은 정보를 제공하거나 특정 상태에 대한 응답을 정의.
@@ -49,6 +51,7 @@ class CourseController (
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.createCourse(createCourseRequest))
     }
 
+    @PreAuthorize("hasRole('TUTOR')") // @Secured 슬 땐 ROLE_ 붙여줘야함
     @PutMapping("/{courseId}")
     // PathVariable : URI 에서 경로변수 {} 추출하여 파라미터로 전달받기 위해
     fun updateCourse(@PathVariable courseId:Long, @RequestBody updateCourseRequest: UpdateCourseRequest): ResponseEntity<CourseResponse> {
@@ -57,6 +60,7 @@ class CourseController (
     }
 
     @DeleteMapping("/{courseId}")
+    @PreAuthorize("hasRole('TUTOR')")
     fun deleteCourse(@PathVariable courseId:Long) : ResponseEntity<Unit> {
 
         courseService.deleteCourse(courseId)

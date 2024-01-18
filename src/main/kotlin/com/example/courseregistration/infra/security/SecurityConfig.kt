@@ -3,16 +3,20 @@ package com.example.courseregistration.infra.security
 import com.example.courseregistration.infra.security.jwt.JwtAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.access.AccessDeniedHandler
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity // http 기반 통신시 관련 보안 기능 켜기위해 설정
+@EnableMethodSecurity // @Secured, @POreAutorize 등 사용 가능하게 함
 class SecurityConfig(
     private val jwtAuthenticationFilter: JwtAuthenticationFilter,
-    private val authenticationEntryPoint: CustomAuthenticationEntryPoint
+    private val authenticationEntryPoint: CustomAuthenticationEntryPoint,
+    private val accessDeniedHandler: AccessDeniedHandler,
 ){ // 필요 없는 필터 끄기 위해 작성.
     @Bean
     fun filterChain(http: HttpSecurity):SecurityFilterChain{
@@ -28,13 +32,13 @@ class SecurityConfig(
                     "/swagger-ui/**", // swagger페이지
                     "v3/api-docs/**", // 내용 docs
                 ).permitAll() // 위 URL은 승인처리
-                    // 위 URI 제외하곤 모두(anyRequest) 인증이 되어야 함
-                    .anyRequest().authenticated()
+                 .anyRequest().authenticated() // 위 URI 제외하곤 모두(anyRequest) 인증이 되어야 함
             }
             // 기존 UsernamePasswordAuthenticationFilter 가 존재하던 자리에 JwtAuthenticationFilter 추가
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
             .exceptionHandling{
                 it.authenticationEntryPoint(authenticationEntryPoint)
+                it.accessDeniedHandler(accessDeniedHandler) // 에러 연결하기
             }
             .build()
     }

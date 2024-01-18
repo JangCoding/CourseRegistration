@@ -26,7 +26,7 @@ class UserServiceImpl(
         val user = userRepository.findByEmail(request.email)
             ?:throw ModelNotFoundException("User", null)
 
-        if (user.role.name != request.role
+        if (user.role.name != request.role.uppercase()
             || !passwordEncoder.matches(request.password, user.password ) )
                 // request 는 encode 하기전. raw 이고, user 는 암호화 되어있는 상태
         {

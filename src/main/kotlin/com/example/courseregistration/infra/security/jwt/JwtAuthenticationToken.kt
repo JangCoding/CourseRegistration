@@ -1,5 +1,6 @@
 package com.example.courseregistration.infra.security.jwt
 
+import com.example.courseregistration.infra.security.UserPrincipal
 import org.springframework.security.authentication.AbstractAuthenticationToken
 import org.springframework.security.web.authentication.WebAuthenticationDetails
 

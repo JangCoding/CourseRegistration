@@ -6,6 +6,8 @@ plugins {
 	kotlin("jvm") version "1.9.20"
 	kotlin("plugin.spring") version "1.9.20"
 	kotlin("plugin.noarg") version "1.8.22"
+	kotlin("kapt") version "1.8.22" // Koatlin Annotation Processing Tool.
+									// Annotation 들을 분석하여 QueryDSL에 알려줌 > QClass 들을 사용할 수 있게 함
 }
 
 group = "com.example"
@@ -39,7 +41,7 @@ allOpen {
 }
 
 
-
+val queryDslVersion = "5.0.0"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
@@ -66,6 +68,10 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.12.3")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3")
+
+	// QueryDSL 관련 의존성 추가
+	implementation("com.querydsl:querydsl-jpa:$queryDslVersion:jakarta") // 추가!
+	kapt("com.querydsl:querydsl-apt:$queryDslVersion:jakarta") // 추가!
 }
 
 tasks.withType<KotlinCompile> {

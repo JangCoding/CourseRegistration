@@ -12,7 +12,9 @@ class JwtAuthenticationToken(
     // 요청하고 있는 주소, 세션 정보
     details : WebAuthenticationDetails
 
-) : AbstractAuthenticationToken(principal.authoricies) {
+) : AbstractAuthenticationToken(principal.authoricies) { // .authoricies = role
+    // 사용자 인증 정보 표현하기 위한 추상 클래스.
+    //
 
     init {
         // JWT 검증 됐을 때 바로 생성. 생성 되면 true 로

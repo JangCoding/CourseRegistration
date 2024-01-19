@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service
 class UserServiceImpl(
     // Repository 주입을 받아서 처리
     private val userRepository: UserRepository,
-    private val passwordEncoder: PasswordEncoder,
-    private val jwtPlugin : JwtPlugin
+    private val passwordEncoder: PasswordEncoder, // 비밀번호 암호화 저장
+    private val jwtPlugin : JwtPlugin // 토큰 검증 ,  생성
 ) : UserService {
     override fun login(request: LoginRequest): LoginResponse {
         // email, role, password 체크

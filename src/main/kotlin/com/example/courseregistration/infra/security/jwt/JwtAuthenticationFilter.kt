@@ -12,7 +12,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 
 @Component // 클래스를 빈으로 등록
 class JwtAuthenticationFilter(
-    private val jwtPlugin: JwtPlugin
+    private val jwtPlugin: JwtPlugin  // 토큰 검증
 ) : OncePerRequestFilter() { // 매 요청 마다 JWT 확인, 검증. Spring Web 제공
 
     //패턴정규화?
@@ -22,7 +22,7 @@ class JwtAuthenticationFilter(
         // ^~~ : ~~로 시작하는 문자열 / (.+) : 가장 긴 문자열 / (.+?) 가장 짧은 문자열
         // $ : 문자열의 끝.
     }
-    override fun doFilterInternal(
+    override fun doFilterInternal( // OncePerRequestFilter의 메서드. 필수구현해야함
         request: HttpServletRequest, // HttpServletRequest extend ServletRequest
         response: HttpServletResponse,
         filterChain: FilterChain
@@ -58,7 +58,8 @@ class JwtAuthenticationFilter(
         filterChain.doFilter(request, response) // 다음 필터 호출
     }
 
-    // 확장함수(extension function). 이 클래스 에서만 HttpServletRequest에서 getBearerToken() 쓸 수 있음
+    // "Authorization" : Bearer {JWT} 에서 JWT 부분만 가져오기
+    //확장함수(extension function). 이 클래스 에서만 HttpServletRequest에서 getBearerToken() 쓸 수 있음
     private fun HttpServletRequest.getBearerToken() : String?{ // Bearer토큰이 없을 수도 있음
         val headerValue = this.getHeader(HttpHeaders.AUTHORIZATION) //그냥 Headers 에 정의된 String 상수
             ?: return null // 위 키워드를 기반으로 헤더값을 가져올 수 있음 // Bearer {JWT} 로 되어있음

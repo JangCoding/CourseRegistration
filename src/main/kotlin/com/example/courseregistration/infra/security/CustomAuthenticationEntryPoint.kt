@@ -10,6 +10,7 @@ import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.stereotype.Component
 
 @Component
+//커스텀 인증 진입 지점. 인증 예외가 발생했을 때 클라이언트에게 적절한 응답을 제공
 class CustomAuthenticationEntryPoint : AuthenticationEntryPoint {
     override fun commence(
         request: HttpServletRequest, // 자바 기반이라 ? 빼야됨

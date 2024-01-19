@@ -7,6 +7,7 @@ import com.example.courseregistration.domain.course.model.Course
 import com.example.courseregistration.domain.course.model.CourseStatus
 import com.example.courseregistration.domain.course.model.toResponse
 import com.example.courseregistration.domain.course.repository.CourseRepository
+import com.example.courseregistration.domain.course.repository.QueryDslCourseRepositofy
 import com.example.courseregistration.domain.courseapplication.dto.ApplyCourseRequest
 import com.example.courseregistration.domain.courseapplication.dto.CourseApplicationResponse
 import com.example.courseregistration.domain.courseapplication.dto.UpdateApplicationStatusRequest
@@ -34,6 +35,7 @@ class CourseServiceImpl(
     private val courseRepository: CourseRepository,
     private val lectureRepository: LectureRepository,
     private val courseApplicationRepository: CourseApplicationRepository,
+    private val queryDslCourseRepository : QueryDslCourseRepositofy,
     private val userRepository: UserRepository,
 ) : CourseService {
     // Ctrl + O 하면 CourseService 안의 기능을 오버라이드할 수 있도록 도와줌
@@ -53,6 +55,12 @@ class CourseServiceImpl(
 
         val course = courseRepository.findByIdOrNull(courseId) ?: throw ModelNotFoundException("Course", courseId)
         return course.toResponse()
+
+    }
+
+    override fun searchCourseList(title: String): List<CourseResponse> {
+        return queryDslCourseRepository.searchCourseListByTitle(title)
+            .map{it.toResponse()}
 
     }
 

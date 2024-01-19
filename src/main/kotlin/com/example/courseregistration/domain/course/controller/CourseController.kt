@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 
 //만들었으면 스프링에 Bean 으로 등록해달라고 해야함.
@@ -40,6 +42,16 @@ class CourseController (
 
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getCourseById(courseId))
     }
+
+    @GetMapping("/search")
+    @PreAuthorize("hasRole('TUTOR') or hasRole('STUDENT')")
+    fun searchCourseList(@RequestParam(value = "title") title:String):ResponseEntity<List<CourseResponse>>
+    {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(courseService.searchCourseList(title))
+    }
+
 
     @PostMapping()
     @PreAuthorize("hasRole('TUTOR')")

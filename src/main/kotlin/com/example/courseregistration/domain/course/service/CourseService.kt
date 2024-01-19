@@ -35,6 +35,7 @@ interface CourseService {
     fun getCourseApplicationList(courseId: Long):List<CourseApplicationResponse>
 
     fun updateCourseApplicationStatus(courseId: Long, applicationId: Long, request: UpdateApplicationStatusRequest) :CourseApplicationResponse
+    fun searchCourseList(title: String): List<CourseResponse>
 
 
 }
